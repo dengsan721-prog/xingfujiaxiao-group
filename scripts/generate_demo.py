@@ -187,14 +187,33 @@ def render():
       font-size: 13px;
       margin: 0 0 7px;
     }}
+    .select-shell {{
+      position: relative;
+      margin-bottom: 14px;
+    }}
+    .select-shell::after {{
+      content: "";
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid var(--muted);
+      border-bottom: 2px solid var(--muted);
+      pointer-events: none;
+      transform: translateY(-65%) rotate(45deg);
+    }}
     select {{
+      appearance: none;
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 6px;
-      background: #fff;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
       color: var(--ink);
-      padding: 9px 10px;
-      margin-bottom: 14px;
+      padding: 10px 42px 10px 12px;
+      margin-bottom: 0;
+      min-height: 44px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
     }}
     .days {{
       display: grid;
@@ -406,12 +425,13 @@ def render():
         gap: 8px;
       }}
       .logo {{
-        width: min(100%, 260px);
+        width: min(52vw, 180px);
         height: auto;
       }}
       h1 {{
-        font-size: 18px;
+        font-size: 22px;
         line-height: 1.25;
+        font-weight: 800;
       }}
       .status {{
         display: none;
@@ -435,22 +455,22 @@ def render():
         font-size: 12px;
         margin: 0 0 6px;
       }}
+      .select-shell {{
+        margin-bottom: 10px;
+      }}
       select {{
         min-height: 44px;
-        margin-bottom: 10px;
-        padding: 10px 12px;
+        padding: 10px 42px 10px 12px;
       }}
       .quick-actions {{
         top: 0;
       }}
       .copy-row {{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
         padding: 10px;
-        gap: 8px;
       }}
       #copyFull {{
         grid-column: 1 / -1;
+        width: 100%;
       }}
       .source-line {{
         align-items: flex-start;
@@ -475,8 +495,8 @@ def render():
       .copy-btn {{
         width: 100%;
         min-height: 42px;
-        padding: 9px 4px;
-        font-size: 13px;
+        padding: 10px 12px;
+        font-size: 15px;
         white-space: nowrap;
       }}
       .message {{
@@ -524,16 +544,15 @@ def render():
     <main>
       <aside>
         <p class="label">主题</p>
-        <select id="themeSelect"></select>
+        <div class="select-shell">
+          <select id="themeSelect"></select>
+        </div>
         <p class="label">天数</p>
         <div class="days" id="dayButtons"></div>
       </aside>
       <section class="content">
         <div class="copy-row quick-actions">
           <button class="copy-btn" id="copyFull">复制当天全文</button>
-          <button class="copy-btn secondary" id="copySignin">只复制签到</button>
-          <button class="copy-btn secondary" id="copyGame">只复制小游戏</button>
-          <button class="copy-btn secondary" id="copyHomework">只复制作业</button>
         </div>
         <article class="message" id="message"></article>
       </section>
@@ -715,9 +734,6 @@ def render():
       render();
     }});
     document.querySelector("#copyFull").addEventListener("click", () => copyPart("full"));
-    document.querySelector("#copySignin").addEventListener("click", () => copyPart("signin"));
-    document.querySelector("#copyGame").addEventListener("click", () => copyPart("game"));
-    document.querySelector("#copyHomework").addEventListener("click", () => copyPart("homework"));
 
     renderDayList();
     render();

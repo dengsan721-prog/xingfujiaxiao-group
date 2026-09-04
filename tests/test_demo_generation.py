@@ -25,9 +25,6 @@ class DemoGenerationTest(unittest.TestCase):
         for label in ["今日小角色", "今天签到", "今天 1 分钟", "5 个可以聊的话题", "群里互动小游戏", "今天小作业", "教练收口"]:
             self.assertIn(label, html)
         self.assertRegex(html, re.compile(r"copyFull|复制当天全文"))
-        self.assertRegex(html, re.compile(r"copySignin|只复制签到"))
-        self.assertRegex(html, re.compile(r"copyGame|只复制小游戏"))
-        self.assertRegex(html, re.compile(r"copyHomework|只复制作业"))
 
     def test_demo_uses_logo_asset(self):
         html = DEMO.read_text(encoding="utf-8")
@@ -57,7 +54,6 @@ class DemoGenerationTest(unittest.TestCase):
             "touch-action: manipulation",
             "scroll-margin-top: 12px",
             "grid-template-columns: repeat(7, minmax(36px, 1fr))",
-            "grid-template-columns: repeat(3, minmax(0, 1fr))",
             "#copyFull",
             "grid-column: 1 / -1",
             "white-space: nowrap",
@@ -66,6 +62,19 @@ class DemoGenerationTest(unittest.TestCase):
         ]:
             self.assertIn(expected, html)
         self.assertNotIn("white-space: pre-wrap", html)
+
+    def test_mobile_header_and_actions_focus_on_title_and_full_copy(self):
+        html = DEMO.read_text(encoding="utf-8")
+        for expected in [
+            "width: min(52vw, 180px)",
+            "font-size: 22px",
+            "font-weight: 800",
+            "select-shell",
+            "appearance: none",
+        ]:
+            self.assertIn(expected, html)
+        for removed in ["copySignin", "copyGame", "copyHomework"]:
+            self.assertNotIn(removed, html)
 
     def test_demo_header_omits_activity_label(self):
         html = DEMO.read_text(encoding="utf-8")
