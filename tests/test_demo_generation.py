@@ -6,6 +6,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "demo" / "index.html"
 LOGO = ROOT / "demo" / "assets" / "xingfu-yizhan-logo.png"
+ROOT_INDEX = ROOT / "index.html"
+PAGES_WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 
 
 class DemoGenerationTest(unittest.TestCase):
@@ -41,6 +43,18 @@ class DemoGenerationTest(unittest.TestCase):
         html = DEMO.read_text(encoding="utf-8")
         self.assertIn("navigator.clipboard", html)
         self.assertIn("document.execCommand", html)
+
+    def test_repo_has_mobile_browsing_entrypoint(self):
+        html = ROOT_INDEX.read_text(encoding="utf-8")
+        self.assertIn("viewport", html)
+        self.assertIn("demo/index.html", html)
+        self.assertIn("董事长（孩子）长成记 群发助手", html)
+
+    def test_github_pages_workflow_publishes_static_site(self):
+        workflow = PAGES_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("github-pages", workflow)
+        self.assertIn("upload-pages-artifact", workflow)
+        self.assertIn("deploy-pages", workflow)
 
 
 if __name__ == "__main__":
