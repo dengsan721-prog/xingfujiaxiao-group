@@ -53,6 +53,7 @@ class DemoGenerationTest(unittest.TestCase):
     def test_github_pages_workflow_publishes_static_site(self):
         workflow = PAGES_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("github-pages", workflow)
+        self.assertIn("enablement: true", workflow)
         self.assertIn("upload-pages-artifact", workflow)
         self.assertIn("deploy-pages", workflow)
 
