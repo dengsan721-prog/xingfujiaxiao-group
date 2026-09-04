@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -9,8 +10,24 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "work" / "build_child_growth_docs.py"
 OUT = ROOT / "demo" / "index.html"
-LOGO_SOURCE = Path(r"G:\幸福驿站\佛山店面设计\素材\幸福驿站logo+各账号头像+二维码\幸福驿站logo透明.png")
+LOGO_SOURCE = ROOT / "demo" / "assets" / "xingfu-yizhan-logo-source.png"
 LOGO_OUT = ROOT / "demo" / "assets" / "xingfu-yizhan-logo.png"
+SOURCE_AUDIO_IDS = {
+    "9": 368, "8": 367, "76": 601, "214": 840, "221": 851, "364": 1081,
+    "171": 746, "835": 2097, "1610": 3522, "1608": 3515, "1135": 2828,
+    "115": 663, "119": 669, "332": 1031, "113": 661, "345": 1053,
+    "248": 897, "286": 958, "361": 1076, "229": 866, "282": 952,
+    "197": 812, "446": 1232, "984": 2463, "1232": 3002, "1522": 3396,
+    "1587": 3487, "1510": 3372, "51": 559, "74": 599, "178": 775,
+    "562": 1444, "815": 2052, "936": 2335, "1065": 2647, "1345": 3158,
+    "1366": 3189, "1446": 3289, "1483": 3338, "1604": 3511, "982": 2455,
+    "1593": 3495, "100": 639, "112": 657, "118": 668, "160": 732,
+    "124": 678, "126": 682, "317": 1008, "1125": 2802, "1338": 3151,
+    "1339": 3152, "1424": 3263, "1466": 3317, "1478": 3331, "1583": 3483,
+    "57": 569, "204": 825, "231": 869, "295": 972, "1391": 3223,
+    "1495": 3354, "1527": 3401, "11": 424, "141": 703, "501": 1340,
+    "1138": 2831, "1143": 2838, "1475": 3328, "1609": 3521,
+}
 
 
 def load_docs():
@@ -21,6 +38,13 @@ def load_docs():
     for item in docs:
         for index, day in enumerate(item["days"]):
             day["roles"] = module.ROLE_SETS[index % len(module.ROLE_SETS)]
+            match = re.search(r"第(\d+)条", day["src"])
+            if match and match.group(1) in SOURCE_AUDIO_IDS:
+                audio_id = SOURCE_AUDIO_IDS[match.group(1)]
+                day["sourceUrl"] = (
+                    "https://www.dachun.tv/pages/home/audioDetail/audioDetail"
+                    f"?audioId={audio_id}&order=desc&promoteId=15"
+                )
     return docs
 
 
@@ -44,12 +68,14 @@ def render():
       --ink: #1d1d1f;
       --muted: #6e6e73;
       --line: #d2d2d7;
-      --panel: rgba(255, 255, 255, 0.82);
+      --panel: rgba(255, 255, 255, 0.9);
       --bg: #f5f5f7;
-      --brand: #0071e3;
-      --brand-dark: #005bb5;
+      --brand: #0a84ff;
+      --brand-dark: #0067c5;
+      --green: #35a936;
+      --warm: #f97316;
       --soft: #f0f7ff;
-      --shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.08);
     }}
     * {{
       box-sizing: border-box;
@@ -57,7 +83,8 @@ def render():
     body {{
       margin: 0;
       color: var(--ink);
-      background: var(--bg);
+      background:
+        linear-gradient(180deg, #ffffff 0, #f5f5f7 330px, #f5f5f7 100%);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
       line-height: 1.55;
     }}
@@ -70,10 +97,10 @@ def render():
       grid-template-rows: auto 1fr;
     }}
     header {{
-      background: rgba(251, 251, 253, 0.86);
+      background: rgba(251, 251, 253, 0.8);
       backdrop-filter: saturate(180%) blur(18px);
       border-bottom: 1px solid var(--line);
-      padding: 14px 28px;
+      padding: 16px 28px;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -89,19 +116,35 @@ def render():
     .brand {{
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
+      min-width: 0;
+    }}
+    .brand-card {{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }}
+    .brand-copy {{
       min-width: 0;
     }}
     .logo {{
-      width: 78px;
-      height: 44px;
+      width: 252px;
+      height: 78px;
       object-fit: contain;
       flex: 0 0 auto;
+      border-radius: 4px;
     }}
     h1 {{
       margin: 0;
-      font-size: 22px;
+      font-size: 24px;
       letter-spacing: 0;
+      font-weight: 700;
+    }}
+    .eyebrow {{
+      margin: 0 0 2px;
+      color: var(--brand-dark);
+      font-size: 13px;
       font-weight: 700;
     }}
     .status {{
@@ -113,7 +156,7 @@ def render():
       max-width: 1280px;
       width: 100%;
       margin: 0 auto;
-      padding: 22px 28px 34px;
+      padding: 24px 28px 38px;
       display: grid;
       grid-template-columns: 250px minmax(0, 1fr) 310px;
       gap: 18px;
@@ -166,6 +209,7 @@ def render():
       border-radius: 6px;
       background: #fff;
       cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border 160ms ease;
     }}
     .day-btn.active {{
       background: var(--brand);
@@ -181,6 +225,13 @@ def render():
       flex-wrap: wrap;
       align-items: center;
     }}
+    .quick-actions {{
+      background: rgba(255, 255, 255, 0.72);
+      position: sticky;
+      top: 112px;
+      z-index: 5;
+      backdrop-filter: saturate(180%) blur(14px);
+    }}
     .copy-btn {{
       border: 1px solid var(--brand);
       background: var(--brand);
@@ -189,6 +240,7 @@ def render():
       padding: 8px 11px;
       cursor: pointer;
       min-height: 36px;
+      font-weight: 700;
     }}
     .copy-btn.secondary {{
       color: var(--brand-dark);
@@ -198,24 +250,46 @@ def render():
       transform: translateY(1px);
     }}
     .message {{
-      padding: 24px;
+      padding: 26px;
       white-space: pre-wrap;
       font-size: 16px;
       overflow-wrap: anywhere;
     }}
     .message h2 {{
       margin: 0 0 14px;
-      font-size: 25px;
+      font-size: 28px;
       letter-spacing: 0;
+      line-height: 1.22;
     }}
     .message .source {{
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-size: 14px;
+    }}
+    .source-line {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e5e5ea;
+      border-radius: 8px;
+      background: #fbfbfd;
+    }}
+    .source-link {{
+      flex: 0 0 auto;
+      color: #fff;
+      background: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 999px;
+      padding: 5px 10px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
     }}
     .section {{
       border-top: 1px solid var(--line);
-      padding: 13px 0;
+      padding: 15px 0;
     }}
     .section-head {{
       display: flex;
@@ -239,6 +313,7 @@ def render():
       padding: 4px 8px;
       font-size: 13px;
       white-space: nowrap;
+      font-weight: 700;
     }}
     ol {{
       margin: 7px 0 0 22px;
@@ -268,6 +343,7 @@ def render():
       cursor: pointer;
       text-align: left;
       font-size: 14px;
+      line-height: 1.35;
     }}
     .mini-day.active {{
       background: var(--soft);
@@ -306,6 +382,9 @@ def render():
         grid-template-columns: 1fr;
         padding: 16px;
       }}
+      .quick-actions {{
+        top: 0;
+      }}
       aside, .preview {{
         position: static;
       }}
@@ -317,8 +396,21 @@ def render():
       header {{
         padding: 15px 16px;
       }}
+      .brand-card {{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }}
+      .logo {{
+        width: min(100%, 330px);
+        height: auto;
+      }}
       h1 {{
         font-size: 20px;
+      }}
+      .source-line {{
+        align-items: flex-start;
+        flex-direction: column;
       }}
       .days {{
         grid-template-columns: repeat(4, 1fr);
@@ -337,9 +429,12 @@ def render():
   <div class="app">
     <header>
       <div class="topline">
-        <div class="brand">
+        <div class="brand brand-card">
           <img class="logo" src="assets/xingfu-yizhan-logo.png" alt="幸福驿站">
-          <h1>董事长（孩子）长成记 群发助手</h1>
+          <div class="brand-copy">
+            <p class="eyebrow">14 天群发成长活动</p>
+            <h1>董事长（孩子）长成记 群发助手</h1>
+          </div>
         </div>
         <div class="status" id="status">选择主题和天数，复制后发群</div>
       </div>
@@ -352,7 +447,7 @@ def render():
         <div class="days" id="dayButtons"></div>
       </aside>
       <section class="content">
-        <div class="copy-row">
+        <div class="copy-row quick-actions">
           <button class="copy-btn" id="copyFull">复制当天全文</button>
           <button class="copy-btn secondary" id="copySignin">只复制签到</button>
           <button class="copy-btn secondary" id="copyGame">只复制小游戏</button>
@@ -387,6 +482,7 @@ def render():
         `第 ${{number}} 天  ${{day.title}}`,
         ``,
         `【参考文稿】${{day.src}}`,
+        day.sourceUrl ? `【原文链接】${{day.sourceUrl}}` : ``,
         `【今日小角色】${{day.roles}}`,
         `【今天签到】${{day.signin}}`,
         `【今天 1 分钟】${{day.minute}}`,
@@ -406,7 +502,10 @@ def render():
       status.textContent = `${{theme.subtitle}} · 第 ${{currentDay + 1}} 天`;
       message.innerHTML = `
         <h2>第 ${{currentDay + 1}} 天  ${{escapeHtml(day.title)}}</h2>
-        <div class="source">参考文稿：${{escapeHtml(day.src)}}</div>
+        <div class="source source-line">
+          <span>参考文稿：${{escapeHtml(day.src)}}</span>
+          ${{day.sourceUrl ? `<a class="source-link" href="${{escapeHtml(day.sourceUrl)}}" target="_blank" rel="noopener">去听原文</a>` : ""}}
+        </div>
         ${{section("roles", "今日小角色", day.roles)}}
         ${{section("signin", "今天签到", day.signin)}}
         ${{section("minute", "今天 1 分钟", day.minute)}}

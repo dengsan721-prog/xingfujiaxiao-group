@@ -1,4 +1,5 @@
 import re
+import struct
 import unittest
 from pathlib import Path
 
@@ -32,6 +33,23 @@ class DemoGenerationTest(unittest.TestCase):
         html = DEMO.read_text(encoding="utf-8")
         self.assertTrue(LOGO.exists())
         self.assertIn("assets/xingfu-yizhan-logo.png", html)
+        with LOGO.open("rb") as logo_file:
+            logo_file.seek(16)
+            width, height = struct.unpack(">II", logo_file.read(8))
+        self.assertGreater(width, height * 2)
+
+    def test_demo_links_each_source_to_dachun_audio_detail(self):
+        html = DEMO.read_text(encoding="utf-8")
+        self.assertEqual(html.count('"sourceUrl":'), 70)
+        self.assertIn("https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=", html)
+        self.assertIn("去听原文", html)
+        self.assertIn("source-link", html)
+
+    def test_demo_has_polished_mobile_visual_shell(self):
+        html = DEMO.read_text(encoding="utf-8")
+        self.assertIn("brand-card", html)
+        self.assertIn("quick-actions", html)
+        self.assertIn("backdrop-filter", html)
 
     def test_each_message_section_has_copy_button(self):
         html = DEMO.read_text(encoding="utf-8")

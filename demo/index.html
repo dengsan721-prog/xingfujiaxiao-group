@@ -9,12 +9,14 @@
       --ink: #1d1d1f;
       --muted: #6e6e73;
       --line: #d2d2d7;
-      --panel: rgba(255, 255, 255, 0.82);
+      --panel: rgba(255, 255, 255, 0.9);
       --bg: #f5f5f7;
-      --brand: #0071e3;
-      --brand-dark: #005bb5;
+      --brand: #0a84ff;
+      --brand-dark: #0067c5;
+      --green: #35a936;
+      --warm: #f97316;
       --soft: #f0f7ff;
-      --shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.08);
     }
     * {
       box-sizing: border-box;
@@ -22,7 +24,8 @@
     body {
       margin: 0;
       color: var(--ink);
-      background: var(--bg);
+      background:
+        linear-gradient(180deg, #ffffff 0, #f5f5f7 330px, #f5f5f7 100%);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
       line-height: 1.55;
     }
@@ -35,10 +38,10 @@
       grid-template-rows: auto 1fr;
     }
     header {
-      background: rgba(251, 251, 253, 0.86);
+      background: rgba(251, 251, 253, 0.8);
       backdrop-filter: saturate(180%) blur(18px);
       border-bottom: 1px solid var(--line);
-      padding: 14px 28px;
+      padding: 16px 28px;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -54,19 +57,35 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
+      min-width: 0;
+    }
+    .brand-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .brand-copy {
       min-width: 0;
     }
     .logo {
-      width: 78px;
-      height: 44px;
+      width: 252px;
+      height: 78px;
       object-fit: contain;
       flex: 0 0 auto;
+      border-radius: 4px;
     }
     h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 24px;
       letter-spacing: 0;
+      font-weight: 700;
+    }
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--brand-dark);
+      font-size: 13px;
       font-weight: 700;
     }
     .status {
@@ -78,7 +97,7 @@
       max-width: 1280px;
       width: 100%;
       margin: 0 auto;
-      padding: 22px 28px 34px;
+      padding: 24px 28px 38px;
       display: grid;
       grid-template-columns: 250px minmax(0, 1fr) 310px;
       gap: 18px;
@@ -131,6 +150,7 @@
       border-radius: 6px;
       background: #fff;
       cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border 160ms ease;
     }
     .day-btn.active {
       background: var(--brand);
@@ -146,6 +166,13 @@
       flex-wrap: wrap;
       align-items: center;
     }
+    .quick-actions {
+      background: rgba(255, 255, 255, 0.72);
+      position: sticky;
+      top: 112px;
+      z-index: 5;
+      backdrop-filter: saturate(180%) blur(14px);
+    }
     .copy-btn {
       border: 1px solid var(--brand);
       background: var(--brand);
@@ -154,6 +181,7 @@
       padding: 8px 11px;
       cursor: pointer;
       min-height: 36px;
+      font-weight: 700;
     }
     .copy-btn.secondary {
       color: var(--brand-dark);
@@ -163,24 +191,46 @@
       transform: translateY(1px);
     }
     .message {
-      padding: 24px;
+      padding: 26px;
       white-space: pre-wrap;
       font-size: 16px;
       overflow-wrap: anywhere;
     }
     .message h2 {
       margin: 0 0 14px;
-      font-size: 25px;
+      font-size: 28px;
       letter-spacing: 0;
+      line-height: 1.22;
     }
     .message .source {
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-size: 14px;
+    }
+    .source-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e5e5ea;
+      border-radius: 8px;
+      background: #fbfbfd;
+    }
+    .source-link {
+      flex: 0 0 auto;
+      color: #fff;
+      background: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 999px;
+      padding: 5px 10px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
     }
     .section {
       border-top: 1px solid var(--line);
-      padding: 13px 0;
+      padding: 15px 0;
     }
     .section-head {
       display: flex;
@@ -204,6 +254,7 @@
       padding: 4px 8px;
       font-size: 13px;
       white-space: nowrap;
+      font-weight: 700;
     }
     ol {
       margin: 7px 0 0 22px;
@@ -233,6 +284,7 @@
       cursor: pointer;
       text-align: left;
       font-size: 14px;
+      line-height: 1.35;
     }
     .mini-day.active {
       background: var(--soft);
@@ -271,6 +323,9 @@
         grid-template-columns: 1fr;
         padding: 16px;
       }
+      .quick-actions {
+        top: 0;
+      }
       aside, .preview {
         position: static;
       }
@@ -282,8 +337,21 @@
       header {
         padding: 15px 16px;
       }
+      .brand-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .logo {
+        width: min(100%, 330px);
+        height: auto;
+      }
       h1 {
         font-size: 20px;
+      }
+      .source-line {
+        align-items: flex-start;
+        flex-direction: column;
       }
       .days {
         grid-template-columns: repeat(4, 1fr);
@@ -302,9 +370,12 @@
   <div class="app">
     <header>
       <div class="topline">
-        <div class="brand">
+        <div class="brand brand-card">
           <img class="logo" src="assets/xingfu-yizhan-logo.png" alt="幸福驿站">
-          <h1>董事长（孩子）长成记 群发助手</h1>
+          <div class="brand-copy">
+            <p class="eyebrow">14 天群发成长活动</p>
+            <h1>董事长（孩子）长成记 群发助手</h1>
+          </div>
         </div>
         <div class="status" id="status">选择主题和天数，复制后发群</div>
       </div>
@@ -317,7 +388,7 @@
         <div class="days" id="dayButtons"></div>
       </aside>
       <section class="content">
-        <div class="copy-row">
+        <div class="copy-row quick-actions">
           <button class="copy-btn" id="copyFull">复制当天全文</button>
           <button class="copy-btn secondary" id="copySignin">只复制签到</button>
           <button class="copy-btn secondary" id="copyGame">只复制小游戏</button>
@@ -353,7 +424,8 @@
         "signin": "用一个表情签到：今天你的自控力电量是多少？满电、半电、快没电都可以。",
         "game": "三秒选择题：教练发“先玩还是先写 10 分钟作业”，大家只能回 A 或 B，再说一句为什么。",
         "homework": "今天给自己定一个“先做后玩”的小约定，只要 10 分钟就算完成。",
-        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。"
+        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=368&order=desc&promoteId=15"
       },
       {
         "src": "第8条：健康=好习惯+时间，疾病=坏习惯+时间",
@@ -369,7 +441,8 @@
         "signin": "报一个“今日小动作”：喝水、整理桌面、读一页书、早睡一点都行。",
         "game": "习惯接龙：每人发一个 1 分钟好习惯，后面的人不能重复。",
         "homework": "选一个 1 分钟好习惯，今天完成一次并在群里打卡。",
-        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。"
+        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=367&order=desc&promoteId=15"
       },
       {
         "src": "第76条：兴趣是最好的老师，习惯是最好的家长",
@@ -385,7 +458,8 @@
         "signin": "发一个你最近有点喜欢的东西：一本书、一首歌、一个运动、一个技能都可以。",
         "game": "兴趣盲盒：每人说一个兴趣，其他人帮他想一个“每天 5 分钟玩法”。",
         "homework": "给自己的兴趣安排 5 分钟，做完就算赢。",
-        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。"
+        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=601&order=desc&promoteId=15"
       },
       {
         "src": "第214条：好习惯，最好是一开始就培养成，而不是以后再去改正",
@@ -401,7 +475,8 @@
         "signin": "今天签到请发：我想拦住的一个“小苗头”是……",
         "game": "坏习惯侦探：教练说一个场景，大家抢答它以后可能变成什么麻烦。",
         "homework": "今天发现一个坏习惯苗头，立刻做一个相反的小动作。",
-        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。"
+        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=840&order=desc&promoteId=15"
       },
       {
         "src": "第221条：信任不是为了放纵，反而更要自律",
@@ -417,7 +492,8 @@
         "signin": "用一句话签到：我想被信任的是……",
         "game": "靠谱积分：大家说一个能增加信任的小动作，教练给每个动作起一个积分名。",
         "homework": "今天做一件不用提醒也能完成的小事，完成后只汇报结果。",
-        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。"
+        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=851&order=desc&promoteId=15"
       },
       {
         "src": "第364条：你会定目标吗？",
@@ -433,7 +509,8 @@
         "signin": "发一个“今天能完成”的小目标，越小越好。",
         "game": "目标瘦身赛：教练发大目标，大家把它改小，谁改得最能马上做谁赢。",
         "homework": "把一个大目标改成今晚 15 分钟内能完成的小动作。",
-        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。"
+        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1081&order=desc&promoteId=15"
       },
       {
         "src": "第171条：执行力和总结能力差的后果是什么",
@@ -449,7 +526,8 @@
         "signin": "签到回复：今天我想少踩一个坑。",
         "game": "三句复盘挑战：每人用三句话复盘一件今天的小事。",
         "homework": "今晚用三句话复盘一件事：做对了、卡住了、下次改。",
-        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。"
+        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=746&order=desc&promoteId=15"
       },
       {
         "src": "第835条：人对一件事情的重视程度，就决定了他去想办法解决还是找理由拖延",
@@ -465,7 +543,8 @@
         "signin": "用“今天我要启动……”签到，哪怕只启动 5 分钟。",
         "game": "第一步拍卖：大家把一个难任务拆成最小第一步，谁的第一步最小最容易成交。",
         "homework": "对一个拖延任务只做第一步，做 5 分钟就可以收工。",
-        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。"
+        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2097&order=desc&promoteId=15"
       },
       {
         "src": "第1610条：具备这四个条件的习惯，才叫好习惯",
@@ -481,7 +560,8 @@
         "signin": "发一句：今天我的好习惯要好用，不要好看。",
         "game": "习惯改造师：把“每天背 100 个单词”改造成孩子能坚持的版本。",
         "homework": "把一个习惯降级到“肯定能完成”的版本，并完成一次。",
-        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。"
+        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3522&order=desc&promoteId=15"
       },
       {
         "src": "第1608条：学习聚焦，成长高效",
@@ -497,7 +577,8 @@
         "signin": "签到选择：今天我挑战 10 分钟专注 / 15 分钟专注 / 25 分钟专注。",
         "game": "专注防干扰：大家列出一个干扰，其他人帮他设计一个防干扰动作。",
         "homework": "完成一段无打扰专注，时间自己定，完成后发“我打完一个怪”。",
-        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。"
+        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3515&order=desc&promoteId=15"
       },
       {
         "src": "第1135条：责任心，会让你提升能力",
@@ -513,7 +594,8 @@
         "signin": "发一句：今天我能负责的一小块是……",
         "game": "责任切片：教练给一个混乱场景，大家把责任切成“我能做”和“别人要做”。",
         "homework": "主动完成一件属于自己的小责任，不解释，只交付。",
-        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。"
+        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2828&order=desc&promoteId=15"
       },
       {
         "src": "第115条：别把贪心当上进心",
@@ -529,7 +611,8 @@
         "signin": "今天签到：我想超过昨天的自己一点点。",
         "game": "1% 进步卡：每人说一个今天能进步 1% 的动作。",
         "homework": "做一件让自己比昨天好一点的小事，并写下“我没有放弃”。",
-        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。"
+        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=663&order=desc&promoteId=15"
       },
       {
         "src": "第119条：长寿的人一定是坚持了某个好习惯，恢复健康的人一定是改掉了某个坏习惯",
@@ -545,7 +628,8 @@
         "signin": "给自己的一个好习惯取个装备名，比如“错题盾牌”“早睡能量瓶”。",
         "game": "装备命名大会：大家给好习惯取名字，投票选最想拥有的装备。",
         "homework": "今天使用一次你的好习惯装备。",
-        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。"
+        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=669&order=desc&promoteId=15"
       },
       {
         "src": "第332条：健康的第一责任人是自己",
@@ -561,7 +645,8 @@
         "signin": "发一句毕业签到：我准备在……这件事上先上场。",
         "game": "成长宣言接力：每人发一句“以后我会先……”，后面的人接一句鼓励。",
         "homework": "写一张给 14 天后自己的小纸条：我想继续做的一件事。",
-        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。"
+        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1031&order=desc&promoteId=15"
       }
     ]
   },
@@ -583,7 +668,8 @@
         "signin": "签到回复：今天我要把“看懂”变成“练过”。",
         "game": "练习翻译官：大家把一个学习目标翻译成一个练习动作。",
         "homework": "找一道会看不会做的题，完整动手做一遍，不求全对。",
-        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。"
+        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=661&order=desc&promoteId=15"
       },
       {
         "src": "第345条：会学习的人在找逻辑，不会学习的人在复制、背诵、记忆",
@@ -599,7 +685,8 @@
         "signin": "发一句：今天我不只要答案，我要找套路。",
         "game": "套路侦探：教练给一个生活例子，大家找里面的规律。",
         "homework": "选一道题，写下它的“套路一句话”。",
-        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。"
+        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1053&order=desc&promoteId=15"
       },
       {
         "src": "第248条：学习有三个阶段",
@@ -615,7 +702,8 @@
         "signin": "签到选择：我今天在听过 / 试过 / 会用 阶段。",
         "game": "阶段站队：教练发几个技能，大家判断自己在哪个阶段。",
         "homework": "把今天一个不会的知识点标成“我正在第几阶段”。",
-        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。"
+        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=897&order=desc&promoteId=15"
       },
       {
         "src": "第286条：学习是个积累的过程，不是一个速成的过程，所以学习一定要有耐心",
@@ -631,7 +719,8 @@
         "signin": "发一个“我正在积累”的小动作。",
         "game": "进步显微镜：每人找一个很小的进步，大家帮他放大看见。",
         "homework": "写下今天学到的一个小点，不管多小。",
-        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。"
+        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=958&order=desc&promoteId=15"
       },
       {
         "src": "第361条：正确的学习是理解、应用、改变自己，而不是去背诵、记忆，搞定别人！",
@@ -647,7 +736,8 @@
         "signin": "签到：今天我想把一句话用到自己身上。",
         "game": "道理变动作：大家把一句道理改成一个今天能做的动作。",
         "homework": "把今天学到的一句话，变成一个具体行动。",
-        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。"
+        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1076&order=desc&promoteId=15"
       },
       {
         "src": "第229条：记忆的3种方法",
@@ -663,7 +753,8 @@
         "signin": "发一个你用过的记忆小招，哪怕很土也欢迎。",
         "game": "记忆编剧：把三个关键词编成一句离谱但好记的话。",
         "homework": "用故事或画面记住 3 个今天要背的内容。",
-        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。"
+        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=866&order=desc&promoteId=15"
       },
       {
         "src": "第282条：当你遇到困惑的时候，如果静不下心来学习，这就是失败的前兆",
@@ -679,7 +770,8 @@
         "signin": "签到回复：今天遇到不会，我先停十秒。",
         "game": "冷静按钮：大家给自己的冷静动作取名字，比如“暂停键”“呼吸键”。",
         "homework": "遇到一个卡点时，先圈出你看得懂的 3 个信息。",
-        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。"
+        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=952&order=desc&promoteId=15"
       },
       {
         "src": "第197条：失败只是经历，总结才能找到规律",
@@ -695,7 +787,8 @@
         "signin": "发一句：错题今天不是来骂我的，是来带路的。",
         "game": "错因分类赛：粗心、不会、读错题、时间不够，大家给错题找原因。",
         "homework": "订正一道错题，并写一句“我错在……”。",
-        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。"
+        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=812&order=desc&promoteId=15"
       },
       {
         "src": "第446条：得到经验有两个途径，一个是靠自己的努力拿到经验，一个是总结别人的经历拿到经验！",
@@ -711,7 +804,8 @@
         "signin": "签到：今天我愿意借一个别人的经验。",
         "game": "经验便利店：每人上架一个小经验，其他人可以“购买”一个试试。",
         "homework": "向一个人请教一个具体学习小问题。",
-        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。"
+        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1232&order=desc&promoteId=15"
       },
       {
         "src": "第984条：先找到规律，再去努力，才会有结果",
@@ -727,7 +821,8 @@
         "signin": "发一句：我今天先看路，再用力。",
         "game": "规律猜猜看：教练发三个现象，大家猜共同规律。",
         "homework": "找出一个学习小规律，写成一句话。",
-        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。"
+        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2463&order=desc&promoteId=15"
       },
       {
         "src": "第1232条：找到“内动力”，问题自己解决；用“外动力”，问题家长和领导解决",
@@ -743,7 +838,8 @@
         "signin": "签到：今天我为自己完成一小件事。",
         "game": "理由寻宝：每人说一件不想做的事，大家帮他找一个自己的理由。",
         "homework": "写下一个“我愿意学它，因为……”的真实理由。",
-        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。"
+        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3002&order=desc&promoteId=15"
       },
       {
         "src": "第1522条：怎么样学习快速突破，一个“钉子”理论告诉你",
@@ -759,7 +855,8 @@
         "signin": "今天签到：我的小钉子是……",
         "game": "钉子拆解：大家把一个难点拆成三个小问题。",
         "homework": "选一个小卡点，问老师、同学或查资料，把它弄清一小步。",
-        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。"
+        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3396&order=desc&promoteId=15"
       },
       {
         "src": "第1587条：成长的台阶是“复盘”",
@@ -775,7 +872,8 @@
         "signin": "发一句：我今天给自己升级，不攻击自己。",
         "game": "版本更新发布会：每人说“我的 1.1 版本要更新……”。",
         "homework": "做一次 3 分钟学习复盘：保留、调整、下一步。",
-        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。"
+        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3487&order=desc&promoteId=15"
       },
       {
         "src": "第1510条：学习不一定获得智慧，内观才能打开智慧之门",
@@ -791,7 +889,8 @@
         "signin": "毕业签到：这 14 天，我看见自己……",
         "game": "智慧镜子：每人说一个自己发现的小变化，大家只回应鼓励不评价。",
         "homework": "写一句“我更了解自己了，因为……”。",
-        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。"
+        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3372&order=desc&promoteId=15"
       }
     ]
   },
@@ -813,7 +912,8 @@
         "signin": "用天气签到：今天心里是晴天、多云、下雨还是打雷？",
         "game": "烦恼缩小术：每人说一个烦恼，大家帮他把它缩成“下一步”。",
         "homework": "把一个烦恼写成一句话，再写一个能做的小动作。",
-        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。"
+        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=559&order=desc&promoteId=15"
       },
       {
         "src": "第74条：人情感的特点是：回忆美好带来的快乐很短，回忆痛苦带来的时间更长",
@@ -829,7 +929,8 @@
         "signin": "签到：今天我允许自己有情绪，也允许它慢慢过去。",
         "game": "回放暂停键：大家给“反复想不开心”设计一个暂停动作。",
         "homework": "做一件把注意力带回当下的小事：整理、散步、喝水或写三句话。",
-        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。"
+        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=599&order=desc&promoteId=15"
       },
       {
         "src": "第178条：如何快速放下痛苦，方法就是找对参照物",
@@ -845,7 +946,8 @@
         "signin": "发一句：今天我给烦恼多开一扇窗。",
         "game": "三角度挑战：教练发场景，大家至少说出三个看法。",
         "homework": "选一件不开心，写出两个不同角度。",
-        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。"
+        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=775&order=desc&promoteId=15"
       },
       {
         "src": "第562条：为什么每当发生事情的时候，冷静的人才能思考和正确解决问题",
@@ -861,7 +963,8 @@
         "signin": "签到：今天我练一个“暂停 10 秒”。",
         "game": "暂停手势：每人设计一个不尴尬的暂停手势或暗号。",
         "homework": "今天情绪上来时，至少暂停一次再说话。",
-        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。"
+        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1444&order=desc&promoteId=15"
       },
       {
         "src": "第815条：用生气带着情绪的方式去解决问题，反而会制造更多的矛盾",
@@ -877,7 +980,8 @@
         "signin": "发一句：我的情绪背后，可能有一个需要。",
         "game": "吼句翻译器：把一句冲的话翻译成“感受+需要”。",
         "homework": "今天把一句抱怨改成“我感到……我希望……”。",
-        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。"
+        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2052&order=desc&promoteId=15"
       },
       {
         "src": "第936条：释放压力和转换压力是两个不同的方向",
@@ -893,7 +997,8 @@
         "signin": "用 0 到 10 分签到：今天压力值几分？",
         "game": "压力翻译机：每人说一种压力，大家把它翻译成一个行动提醒。",
         "homework": "写下一个压力来源，再写一个能减轻 1 分的小动作。",
-        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。"
+        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2335&order=desc&promoteId=15"
       },
       {
         "src": "第1065条：放大负面就等于在放大焦虑",
@@ -909,7 +1014,8 @@
         "signin": "签到：今天我不让一个差评占满全屏。",
         "game": "缩放按钮：大家把“我完了”改成更准确的一句话。",
         "homework": "遇到一个负面想法时，补一句“但这不代表全部”。",
-        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。"
+        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2647&order=desc&promoteId=15"
       },
       {
         "src": "第1345条：情绪化的人有五大麻烦",
@@ -925,7 +1031,8 @@
         "signin": "发一句：情绪可以上车，但今天我开车。",
         "game": "十分钟后再说：教练发冲动场景，大家设计十分钟后的更好做法。",
         "homework": "今天遇到冲动决定，给自己 10 分钟再行动。",
-        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。"
+        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3158&order=desc&promoteId=15"
       },
       {
         "src": "第1366条：教你控制情绪的七个方法",
@@ -941,7 +1048,8 @@
         "signin": "签到发一个你的情绪工具：呼吸、写字、散步、音乐、聊天都行。",
         "game": "工具箱抽卡：每人推荐一张情绪工具卡，大家收藏最想试的一张。",
         "homework": "今天至少使用一次情绪工具，并记录有没有好一点。",
-        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。"
+        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3189&order=desc&promoteId=15"
       },
       {
         "src": "第1446条：一个放不下负面情绪的人，主要有这两个原因",
@@ -957,7 +1065,8 @@
         "signin": "签到：今天我不骂自己的情绪，我先听听它。",
         "game": "情绪采访：大家用“你在提醒我什么？”采访一个情绪。",
         "homework": "写下一个放不下的情绪，回答它在提醒你什么。",
-        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。"
+        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3289&order=desc&promoteId=15"
       },
       {
         "src": "第1483条：负面情绪才是矛盾的“放大镜”",
@@ -973,7 +1082,8 @@
         "signin": "发一句：今天我少用一个“总是/从来/根本”。",
         "game": "放大词替换赛：把“你从来不听我说”改成更准确的话。",
         "homework": "今天说话时少用一个绝对词，改成具体事实。",
-        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。"
+        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3338&order=desc&promoteId=15"
       },
       {
         "src": "第1604条：不是“事情”在吵架，而是“情绪”在吵架",
@@ -989,7 +1099,8 @@
         "signin": "签到：今天我试着看见事情背后的情绪。",
         "game": "表面和里面：教练发场景，大家猜表面事情和里面情绪。",
         "homework": "和家人说一句“我真正想表达的是……”。",
-        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。"
+        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3511&order=desc&promoteId=15"
       },
       {
         "src": "第982条：遇到问题的时候学会做“选择题”，你会变得越来越冷静和智慧",
@@ -1005,7 +1116,8 @@
         "signin": "签到：今天我给自己多一个选项。",
         "game": "选择题工厂：大家把一个烦恼改成 A/B/C 三个选择。",
         "homework": "遇到一个问题，先写出三个选项再决定。",
-        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。"
+        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2455&order=desc&promoteId=15"
       },
       {
         "src": "第1593条：你好好说话了，幸福就回来了",
@@ -1021,7 +1133,8 @@
         "signin": "毕业签到：我想练会的一句话是……",
         "game": "温柔但有力量：每人把一句冲突话改成好好说的版本。",
         "homework": "写一句你的情绪管理口号，贴在自己能看到的地方。",
-        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。"
+        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3495&order=desc&promoteId=15"
       }
     ]
   },
@@ -1043,7 +1156,8 @@
         "signin": "签到：今天我允许自己不完美，但不放弃。",
         "game": "站起来接力：每人发一句“我摔过，但我后来……”。",
         "homework": "选一件没做好的事，写下下一次可以调整的一步。",
-        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。"
+        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=639&order=desc&promoteId=15"
       },
       {
         "src": "第112条：失败是成功之母，总结是成功之父",
@@ -1059,7 +1173,8 @@
         "signin": "发一句：今天我把失败变成经验。",
         "game": "失败翻译器：把“我不行”翻译成“我还需要……”。",
         "homework": "把一个失败写成：原因、经验、下一步。",
-        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。"
+        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=657&order=desc&promoteId=15"
       },
       {
         "src": "第118条：在你的眼里问题是个钉子还是个台阶？这就直接决定你是榔头还是在攀登",
@@ -1075,7 +1190,8 @@
         "signin": "签到：今天我把一个钉子变台阶。",
         "game": "钉子变台阶：大家发一个小问题，群里帮他改成成长机会。",
         "homework": "写下一个问题能教你的 1 件事。",
-        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。"
+        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=668&order=desc&promoteId=15"
       },
       {
         "src": "第160条：方向正确，固执就是坚持；方向不对，坚持就是固执",
@@ -1091,7 +1207,8 @@
         "signin": "发一句：今天我坚持目标，也允许调整方法。",
         "game": "继续还是调整：教练发场景，大家判断该坚持还是换方法。",
         "homework": "找一件卡住的事，写一个新方法试试。",
-        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。"
+        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=732&order=desc&promoteId=15"
       },
       {
         "src": "第124条：一个连成长目标都没有的人，成功的目标就是自欺欺人",
@@ -1107,7 +1224,8 @@
         "signin": "签到：今天我的成长目标是……",
         "game": "结果改成长：把“我要考第一”改成一个成长目标。",
         "homework": "写一个不看名次也能完成的成长目标。",
-        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。"
+        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=678&order=desc&promoteId=15"
       },
       {
         "src": "第126条：成功的人讲的是神话，成长的人讲的是人话",
@@ -1123,7 +1241,8 @@
         "signin": "发一句：今天我看过程，不只看高光。",
         "game": "高光背后：每人说一个看似厉害的结果，大家猜背后可能练了什么。",
         "homework": "采访一个人：他做好一件事背后练过什么？",
-        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。"
+        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=682&order=desc&promoteId=15"
       },
       {
         "src": "第317条：为什么成长路上最难的不是学习，而是耐心",
@@ -1139,7 +1258,8 @@
         "signin": "签到：今天我不半路丢下自己。",
         "game": "发芽观察员：大家说一个正在慢慢变好的小迹象。",
         "homework": "记录一个今天的小进步，哪怕只是开始了。",
-        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。"
+        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1008&order=desc&promoteId=15"
       },
       {
         "src": "第1125条：上进心是超越自己，攀比心是干掉别人",
@@ -1155,7 +1275,8 @@
         "signin": "发一句：今天我赢过昨天一点点。",
         "game": "昨天对手赛：每人只和昨天的自己比，说一个小胜利。",
         "homework": "写下今天比昨天好一点的地方。",
-        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。"
+        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2802&order=desc&promoteId=15"
       },
       {
         "src": "第1338条：把惩罚变成鼓励，学习就会自己努力",
@@ -1171,7 +1292,8 @@
         "signin": "签到：今天给自己一句真鼓励。",
         "game": "鼓励补给站：每人发一个小困难，别人只给具体鼓励。",
         "homework": "今天对自己说一句具体鼓励，并写下来。",
-        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。"
+        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3151&order=desc&promoteId=15"
       },
       {
         "src": "第1339条：“坚持就是胜利”这是半句话，害了很多人",
@@ -1187,7 +1309,8 @@
         "signin": "发一句：我坚持，也复盘。",
         "game": "半句话补全：教练发“坚持就是……”，大家补成更聪明的版本。",
         "homework": "对一件坚持中的事，写一个需要调整的小地方。",
-        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。"
+        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3152&order=desc&promoteId=15"
       },
       {
         "src": "第1424条：帮我们渡过一个又一个难关的不是能力，而是“毅力”",
@@ -1203,7 +1326,8 @@
         "signin": "签到：今天我只多撑 5 分钟。",
         "game": "5 分钟勇士：大家选择一个可以多坚持 5 分钟的小挑战。",
         "homework": "对一件想放弃的事，多坚持 5 分钟。",
-        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。"
+        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3263&order=desc&promoteId=15"
       },
       {
         "src": "第1466条：很多痛苦不是因为压力大，而是想逃避",
@@ -1219,7 +1343,8 @@
         "signin": "发一句：今天我先碰一下，不要求一下解决。",
         "game": "压力减肥赛：把一个大压力拆成小到能碰的第一步。",
         "homework": "面对一个一直躲的任务 3 分钟。",
-        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。"
+        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3317&order=desc&promoteId=15"
       },
       {
         "src": "第1478条：为什么态度比能力重要？",
@@ -1235,7 +1360,8 @@
         "signin": "签到：我现在不会，但我可以学一点。",
         "game": "关门开门句：把“我不行”改成给自己留门的话。",
         "homework": "今天遇到不会，说一句“我先学一点”。",
-        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。"
+        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3331&order=desc&promoteId=15"
       },
       {
         "src": "第1583条：干掉孩子自信的不是失败，而是父母的情绪",
@@ -1251,7 +1377,8 @@
         "signin": "毕业签到：我希望别人这样支持我……",
         "game": "支持话术练习：大家把“你怎么又错了”改成支持孩子的话。",
         "homework": "写一段给家长看的话：我失败时，希望你这样陪我。",
-        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。"
+        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3483&order=desc&promoteId=15"
       }
     ]
   },
@@ -1273,7 +1400,8 @@
         "signin": "签到：今天我练“让人听懂”，不是“把人说服”。",
         "game": "换说法挑战：把一句容易吵的话换成更容易听的话。",
         "homework": "今天和一个人说话前，先想一句更容易听懂的表达。",
-        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。"
+        "roles": "小主持：负责发起今天流程；表情签到官：提醒大家签到；游戏领航员：带大家玩小游戏；鼓励官：给参与的伙伴送一句具体鼓励。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=569&order=desc&promoteId=15"
       },
       {
         "src": "第204条：不会说话，好心办坏事，会说话，好心办好事",
@@ -1289,7 +1417,8 @@
         "signin": "发一句：今天好心配好话。",
         "game": "好心翻译机：大家把刺耳提醒改成舒服提醒。",
         "homework": "今天提醒别人时，用“要不要”开头试一次。",
-        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。"
+        "roles": "开场队长：第一个回复签到示范；接龙官：维持接龙不断；游戏官：邀请 3 位伙伴先参与；收尾官：最后发一句今天的群提醒。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=825&order=desc&promoteId=15"
       },
       {
         "src": "第231条：不要把沟通变成一种表演",
@@ -1305,7 +1434,8 @@
         "signin": "签到：今天我练一次不抢话。",
         "game": "一分钟倾听：两人一组，一个说一件小事，另一个只能复述不能评价。",
         "homework": "认真听一个人说完，再回应“我听到你是……”。",
-        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。"
+        "roles": "话题官：从 5 个话题里挑 2 个最想聊的；气氛官：看到冷场就丢一个轻松问题；游戏主持：按规则带大家玩；记录官：记下大家的金句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=869&order=desc&promoteId=15"
       },
       {
         "src": "第295条：你明明知道说得越多越制造问题，会发问能解决问题，但是为什么很多人掌握不了发问的技巧，原因有五个",
@@ -1321,7 +1451,8 @@
         "signin": "签到：今天我练一个好问题。",
         "game": "问题美容院：把一个难听的问题改成好听的问题。",
         "homework": "今天少讲一句道理，多问一个真问题。",
-        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。"
+        "roles": "时间官：提醒大家用 3 分钟快速参与；提问官：帮害羞的伙伴把问题问出来；小游戏队长：先做示范；点赞官：给真实分享的人点赞。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=972&order=desc&promoteId=15"
       },
       {
         "src": "第1391条：会说话，有四种语言",
@@ -1337,7 +1468,8 @@
         "signin": "发一句：今天我让一句话有温度。",
         "game": "四格说话法：把一句冲突话拆成事实、感受、需要、请求。",
         "homework": "用“事实+感受+请求”说一句话。",
-        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。"
+        "roles": "签到设计师：把今天签到说得更有趣；小队长：点名邀请伙伴；游戏导演：控制小游戏节奏；温暖官：只发支持不评价。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3223&order=desc&promoteId=15"
       },
       {
         "src": "第1495条：学会说话，矛盾自化；不会说话，矛盾激化",
@@ -1353,7 +1485,8 @@
         "signin": "发一句你的灭火话。",
         "game": "灭火器挑战：教练发冲突句，大家抢答灭火版本。",
         "homework": "准备一句自己的灭火话，今天需要时使用。",
-        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。"
+        "roles": "目标官：提醒大家把话题落到一个小行动；规则官：说明今天怎么玩；游戏官：带头发第一个答案；复盘官：收集大家完成了什么。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3354&order=desc&promoteId=15"
       },
       {
         "src": "第1527条：只需要培养这个好习惯，就能处理好人际关系",
@@ -1369,7 +1502,8 @@
         "signin": "发一句：我先回应，再讲理。",
         "game": "感受接住球：教练发一句抱怨，大家先接感受再给建议。",
         "homework": "今天至少一次先回应对方感受，再说自己的想法。",
-        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。"
+        "roles": "观察官：发现大家分享里的亮点；话题主持：追问一个有意思的问题；游戏官：带领投票或接龙；鼓励官：给努力但没完成的人加油。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3401&order=desc&promoteId=15"
       },
       {
         "src": "第11条：借力使力不费力，但是一定要还力，不然借力者无力可借，有力者无心可借",
@@ -1385,7 +1519,8 @@
         "signin": "签到：今天我记得一个帮过我的人。",
         "game": "还力接龙：每人说一个收到过的帮助，再说一个能回馈的小动作。",
         "homework": "向一个帮助过你的人表达具体感谢。",
-        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。"
+        "roles": "挑战官：发起今天的小挑战；签到官：统计参与人数；游戏主持：让每个人都有机会说一句；总结官：用一句话总结今天。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=424&order=desc&promoteId=15"
       },
       {
         "src": "第141条：爱孩子是本能，爱父母是感恩",
@@ -1401,7 +1536,8 @@
         "signin": "发一个家人为你做过的小事。",
         "game": "不肉麻感谢赛：大家写一句自然、不尴尬的感谢话。",
         "homework": "对家人说一句具体感谢，越自然越好。",
-        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。"
+        "roles": "创意官：给今天的游戏加一个好玩的名字；邀请官：邀请潜水伙伴冒泡；游戏领队：按顺序带大家玩；感谢官：感谢参与的人。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=703&order=desc&promoteId=15"
       },
       {
         "src": "第501条：提高个人情商的办法，就是处理好人际关系",
@@ -1417,7 +1553,8 @@
         "signin": "签到：今天我练一个舒服相处的小动作。",
         "game": "舒服还是讨好：教练发场景，大家判断这是舒服相处还是委屈讨好。",
         "homework": "今天礼貌表达一次自己的真实想法。",
-        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。"
+        "roles": "专注官：提醒大家短句回复也算参与；话题官：选最贴近学习生活的问题；游戏官：先发模板；收尾官：提醒小作业。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=1340&order=desc&promoteId=15"
       },
       {
         "src": "第1138条：好的人际关系一定有规律",
@@ -1433,7 +1570,8 @@
         "signin": "签到：我今天想练的关系规律是……",
         "game": "关系说明书：每人补充一条“和我相处请注意”。",
         "homework": "写一条自己的关系说明书，比如“我需要被提前告知”。",
-        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。"
+        "roles": "合作官：安排谁先说、谁补充；签到官：用关键词收集状态；游戏官：带小组 PK 或接龙；掌声官：给每个完成者一句掌声。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2831&order=desc&promoteId=15"
       },
       {
         "src": "第1143条：有价值的人是问题的终结者",
@@ -1449,7 +1587,8 @@
         "signin": "发一句：今天我让一件小事往前走。",
         "game": "问题终结者：教练发小组混乱场景，大家提出一个推进动作。",
         "homework": "在一个集体任务里主动推进一小步。",
-        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。"
+        "roles": "勇气官：第一个分享不完美答案；提问官：帮大家追问“为什么”；游戏官：控制每人一句；记录官：留下今天最有启发的一句。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=2838&order=desc&promoteId=15"
       },
       {
         "src": "第1475条：矛盾是由两部分组成，所以每个人都要内观",
@@ -1465,7 +1604,8 @@
         "signin": "发一句：我看自己，不是怪自己。",
         "game": "两边地图：教练发矛盾场景，大家分别找双方各自的一小部分。",
         "homework": "回想一个小矛盾，写下自己能调整的一句话或动作。",
-        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。"
+        "roles": "成长官：提醒大家看见自己的变化；话题官：挑一个最真实的问题；游戏主持：邀请伙伴互相回应；鼓励官：给每个人一句具体看见。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3328&order=desc&promoteId=15"
       },
       {
         "src": "第1609条：有效的陪伴不是空间的距离，而是心与心的距离",
@@ -1481,7 +1621,8 @@
         "signin": "毕业签到：我希望被这样陪伴……我也愿意这样陪伴别人……",
         "game": "陪伴一句话：每人发一句让人感觉被陪伴的话。",
         "homework": "认真陪一个人 5 分钟，不玩手机，不打断。",
-        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。"
+        "roles": "毕业小董事长：带大家完成最后一天；回顾官：邀请大家说一个变化；游戏官：主持最后接力；祝福官：给群里每个人送一句祝福。",
+        "sourceUrl": "https://www.dachun.tv/pages/home/audioDetail/audioDetail?audioId=3521&order=desc&promoteId=15"
       }
     ]
   }
@@ -1503,6 +1644,7 @@
         `第 ${number} 天  ${day.title}`,
         ``,
         `【参考文稿】${day.src}`,
+        day.sourceUrl ? `【原文链接】${day.sourceUrl}` : ``,
         `【今日小角色】${day.roles}`,
         `【今天签到】${day.signin}`,
         `【今天 1 分钟】${day.minute}`,
@@ -1522,7 +1664,10 @@
       status.textContent = `${theme.subtitle} · 第 ${currentDay + 1} 天`;
       message.innerHTML = `
         <h2>第 ${currentDay + 1} 天  ${escapeHtml(day.title)}</h2>
-        <div class="source">参考文稿：${escapeHtml(day.src)}</div>
+        <div class="source source-line">
+          <span>参考文稿：${escapeHtml(day.src)}</span>
+          ${day.sourceUrl ? `<a class="source-link" href="${escapeHtml(day.sourceUrl)}" target="_blank" rel="noopener">去听原文</a>` : ""}
+        </div>
         ${section("roles", "今日小角色", day.roles)}
         ${section("signin", "今天签到", day.signin)}
         ${section("minute", "今天 1 分钟", day.minute)}
