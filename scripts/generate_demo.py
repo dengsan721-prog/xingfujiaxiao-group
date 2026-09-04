@@ -91,6 +91,9 @@ def render():
     button, select {{
       font: inherit;
     }}
+    button, select, a {{
+      touch-action: manipulation;
+    }}
     .app {{
       min-height: 100vh;
       display: grid;
@@ -171,6 +174,7 @@ def render():
     .content {{
       min-width: 0;
       overflow: hidden;
+      scroll-margin-top: 12px;
     }}
     .preview {{
       padding: 16px;
@@ -245,7 +249,7 @@ def render():
     }}
     .message {{
       padding: 26px;
-      white-space: pre-wrap;
+      white-space: normal;
       font-size: 16px;
       overflow-wrap: anywhere;
     }}
@@ -387,34 +391,119 @@ def render():
       }}
     }}
     @media (max-width: 560px) {{
+      body {{
+        background: #f5f5f7;
+      }}
       header {{
-        padding: 15px 16px;
+        padding: 10px 12px;
+      }}
+      .topline {{
+        gap: 8px;
       }}
       .brand-card {{
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 8px;
       }}
       .logo {{
-        width: min(100%, 330px);
+        width: min(100%, 260px);
         height: auto;
       }}
       h1 {{
-        font-size: 20px;
+        font-size: 18px;
+        line-height: 1.25;
+      }}
+      .status {{
+        display: none;
+      }}
+      main {{
+        padding: 10px;
+        gap: 10px;
+      }}
+      aside, .content {{
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+      }}
+      aside {{
+        padding: 12px;
+      }}
+      .preview {{
+        display: none;
+      }}
+      .label {{
+        font-size: 12px;
+        margin: 0 0 6px;
+      }}
+      select {{
+        min-height: 44px;
+        margin-bottom: 10px;
+        padding: 10px 12px;
+      }}
+      .quick-actions {{
+        top: 0;
+      }}
+      .copy-row {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding: 10px;
+        gap: 8px;
+      }}
+      #copyFull {{
+        grid-column: 1 / -1;
       }}
       .source-line {{
         align-items: flex-start;
         flex-direction: column;
+        padding: 10px;
+      }}
+      .source-link {{
+        width: 100%;
+        border-radius: 6px;
+        padding: 8px 10px;
+        text-align: center;
       }}
       .days {{
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(7, minmax(36px, 1fr));
+        gap: 6px;
+      }}
+      .day-btn {{
+        height: 40px;
+        min-width: 0;
+        font-weight: 700;
       }}
       .copy-btn {{
         width: 100%;
+        min-height: 42px;
+        padding: 9px 4px;
+        font-size: 13px;
+        white-space: nowrap;
       }}
       .message {{
-        padding: 16px;
+        padding: 14px;
         font-size: 15px;
+        line-height: 1.65;
+      }}
+      .message h2 {{
+        font-size: 22px;
+        margin-bottom: 10px;
+      }}
+      .section {{
+        padding: 13px 0;
+      }}
+      .section-head {{
+        align-items: flex-start;
+        gap: 8px;
+      }}
+      .copy-section-btn {{
+        min-height: 32px;
+        padding: 5px 9px;
+      }}
+      .toast {{
+        right: 10px;
+        bottom: 14px;
+        left: 10px;
+        text-align: center;
       }}
     }}
   </style>

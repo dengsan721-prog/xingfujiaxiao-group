@@ -51,6 +51,22 @@ class DemoGenerationTest(unittest.TestCase):
         self.assertIn("quick-actions", html)
         self.assertIn("backdrop-filter", html)
 
+    def test_demo_mobile_layout_prioritizes_phone_use(self):
+        html = DEMO.read_text(encoding="utf-8")
+        for expected in [
+            "touch-action: manipulation",
+            "scroll-margin-top: 12px",
+            "grid-template-columns: repeat(7, minmax(36px, 1fr))",
+            "grid-template-columns: repeat(3, minmax(0, 1fr))",
+            "#copyFull",
+            "grid-column: 1 / -1",
+            "white-space: nowrap",
+            "box-shadow: none",
+            "display: none",
+        ]:
+            self.assertIn(expected, html)
+        self.assertNotIn("white-space: pre-wrap", html)
+
     def test_demo_header_omits_activity_label(self):
         html = DEMO.read_text(encoding="utf-8")
         self.assertNotIn("14 天群发成长活动", html)
