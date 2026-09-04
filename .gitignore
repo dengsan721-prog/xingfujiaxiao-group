@@ -1,0 +1,5 @@
+outputs/
+work/*
+!work/build_child_growth_docs.py
+__pycache__/
+*.pyc
