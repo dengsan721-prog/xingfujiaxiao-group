@@ -51,6 +51,10 @@ class DemoGenerationTest(unittest.TestCase):
         self.assertIn("quick-actions", html)
         self.assertIn("backdrop-filter", html)
 
+    def test_demo_header_omits_activity_label(self):
+        html = DEMO.read_text(encoding="utf-8")
+        self.assertNotIn("14 天群发成长活动", html)
+
     def test_each_message_section_has_copy_button(self):
         html = DEMO.read_text(encoding="utf-8")
         self.assertIn("copy-section-btn", html)
